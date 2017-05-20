@@ -12,8 +12,11 @@ import java.io.IOException;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class Main {
+
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException {
         // default server settings
@@ -26,15 +29,18 @@ public class Main {
 
         // Always add generic routes to the end
         get("/", (Request req, Response res) -> {
+            logger.info("Homepage start");
             return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
         });
 
         // Equivalent with above
         get("/Category/:categoryName", (Request req, Response res) -> {
+            logger.info("Category name");
             return new ThymeleafTemplateEngine().render(ProductController.renderForCategory(req, res));
         });
 //
         get("/Supplier/:supplierName", (Request req, Response res) -> {
+            logger.info("Supplier name");
             return new ThymeleafTemplateEngine().render(ProductController.renderForSupplier(req, res));
         });
 
